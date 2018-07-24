@@ -1,0 +1,17 @@
+void Fullform1::on_pushButton_10_clicked() //Фильтр для таблицы Награды
+{
+        QString sr_S = ui->lineEdit_5->text();
+        QSqlQuery query;
+            query.exec("SELECT t2.id FROM tb_full_1 t1 \
+                        LEFT JOIN tb_medal t2 ON t2.id=t1.medal \
+                        WHERE t2.medal LIKE '"+sr_S+"%' AND '"+sr_S+"'!='' ");
+            if(!query.isActive())
+            {
+                    //Ошибка
+                    qDebug()<<query.lastError().text();
+                }
+        query.first();
+        int count = query.value(0).toInt();//сохр. результ. SQL запроса в переменную count
+        QString str = QString::number(count); //переводим стороку из int в str
+        model_4.setFilter("tb_full_1.medal LIKE '"+str+"%'");
+    }
